@@ -49,8 +49,10 @@ func Execute() {
 			if ibnerr.Message != "" {
 				terminal.PrintError(err)
 			}
+			os.Exit(130)
 		default:
 			terminal.PrintError(err)
+			os.Exit(1)
 		}
 	}
 }

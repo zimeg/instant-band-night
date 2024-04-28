@@ -17,6 +17,7 @@ to [Semantic Versioning][semver].
 
 - Output a helpful message with information about common commands by default
 - Hide repeated error messages and usage information from failed command output
+- Exit with an error message and error code before ending failed executions
 
 ### Documentation
 
