@@ -1,11 +1,12 @@
 package cmd
 
 import (
-	"fmt"
-	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
+	"github.com/zimeg/instant-band-night/cmd/musician"
+	"github.com/zimeg/instant-band-night/internal/errors"
+	"github.com/zimeg/instant-band-night/internal/terminal"
 )
 
 // rootCommandNew creates the top level command
@@ -22,15 +23,24 @@ func rootCommandNew() *cobra.Command {
 			return cmd.Help()
 		},
 	}
+	rootCmd.CompletionOptions.DisableDefaultCmd = true
 	rootCmd.SilenceErrors = true
 	rootCmd.SilenceUsage = true
+	rootCmd.AddCommand(musician.MusicianCommandNew())
 	return rootCmd
 }
 
 // Execute runs the root command of the program
 func Execute() {
 	if err := rootCommandNew().Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		ibnerr := errors.ToIBNError(err)
+		switch ibnerr.Code {
+		case errors.ErrPromptInterrupt.Code:
+			if ibnerr.Message != "" {
+				terminal.PrintError(err)
+			}
+		default:
+			terminal.PrintError(err)
+		}
 	}
 }

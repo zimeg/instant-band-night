@@ -10,6 +10,7 @@ to [Semantic Versioning][semver].
 ### Enhancement
 
 - Created a top level 'ibn' command as the starting point for this program
+- Output collected information from a joining musician back to stdout
 
 ### Fixed
 
