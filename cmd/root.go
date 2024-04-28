@@ -2,12 +2,21 @@ package cmd
 
 import (
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/zimeg/instant-band-night/cmd/musician"
 	"github.com/zimeg/instant-band-night/internal/errors"
 	"github.com/zimeg/instant-band-night/internal/terminal"
 )
+
+// rootCommandFlagSet contains global flags for this program
+type rootCommandFlagSet struct {
+	dateFlag string
+}
+
+// rootCommandFlags implements the global flags for this prompts
+var rootCommandFlags rootCommandFlagSet
 
 // rootCommandNew creates the top level command
 func rootCommandNew() *cobra.Command {
@@ -27,6 +36,7 @@ func rootCommandNew() *cobra.Command {
 	rootCmd.SilenceErrors = true
 	rootCmd.SilenceUsage = true
 	rootCmd.AddCommand(musician.MusicianCommandNew())
+	rootCmd.PersistentFlags().StringVarP(&rootCommandFlags.dateFlag, "date", "d", time.Now().Format("2006-01-02"), "date of the event")
 	return rootCmd
 }
 
