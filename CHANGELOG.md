@@ -7,6 +7,10 @@ to [Semantic Versioning][semver].
 
 ## [Unreleased]
 
+### Enhancement
+
+- Created a top level 'ibn' command as the starting point for this program
+
 ### Documentation
 
 - Write a few basic words about the project on the project README
