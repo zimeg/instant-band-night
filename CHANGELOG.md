@@ -11,6 +11,10 @@ to [Semantic Versioning][semver].
 
 - Created a top level 'ibn' command as the starting point for this program
 
+### Fixed
+
+- Output a helpful message with information about common commands by default
+
 ### Documentation
 
 - Write a few basic words about the project on the project README

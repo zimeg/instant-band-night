@@ -18,8 +18,8 @@ func rootCommandNew() *cobra.Command {
 			"",
 			"Pairing random musicians to buckets of instrument for impromptu playing.",
 		}, "\n"),
-		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("🎺 doot")
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return cmd.Help()
 		},
 	}
 	return rootCmd
