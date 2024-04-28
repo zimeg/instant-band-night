@@ -14,6 +14,7 @@ to [Semantic Versioning][semver].
 ### Fixed
 
 - Output a helpful message with information about common commands by default
+- Hide repeated error messages and usage information from failed command output
 
 ### Documentation
 

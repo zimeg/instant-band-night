@@ -22,6 +22,8 @@ func rootCommandNew() *cobra.Command {
 			return cmd.Help()
 		},
 	}
+	rootCmd.SilenceErrors = true
+	rootCmd.SilenceUsage = true
 	return rootCmd
 }
 
