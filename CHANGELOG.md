@@ -21,6 +21,7 @@ to [Semantic Versioning][semver].
 - Share all source code under the open and permissive MIT license
 - Setup basic build script commands with teardown using Makefile
 - Instantiate development dependencies on load using a Nix flake
+- Request code patterns follow the same shared linting practices
 
 <!-- a collection of links -->
 [changelog]: https://keepachangelog.com/en/1.1.0/

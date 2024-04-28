@@ -10,7 +10,7 @@ import (
 
 // rootCommandNew creates the top level command
 func rootCommandNew() *cobra.Command {
-	var rootCmd = &cobra.Command{
+	rootCmd := &cobra.Command{
 		Use:   "ibn",
 		Short: "🎶 Instant Band Night CLI",
 		Long: strings.Join([]string{
