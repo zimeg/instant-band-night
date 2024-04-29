@@ -1,6 +1,12 @@
 package errors
 
 var (
+	// ErrMissingFile denotes a missing file
+	ErrMissingFile = IBNError{
+		Code:    "err_missing_file",
+		Message: "No matching file was found",
+	}
+
 	// ErrMissingInputMusicianInstrument denotes a missing instrument selection
 	ErrMissingInputMusicianInstrument = IBNError{
 		Code:    "err_missing_input_musician_instrument",

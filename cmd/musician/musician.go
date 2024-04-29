@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
+	"github.com/zimeg/instant-band-night/pkg/event"
 	"github.com/zimeg/instant-band-night/pkg/musician"
 )
 
@@ -11,7 +12,7 @@ import (
 type Musician = musician.Musician
 
 // MusicianCommandNew contains commands centered around the musician
-func MusicianCommandNew() *cobra.Command {
+func MusicianCommandNew(event *event.Event) *cobra.Command {
 	musicianCommand := &cobra.Command{
 		Use:     "musician",
 		Aliases: []string{"bucket"},
@@ -23,6 +24,6 @@ func MusicianCommandNew() *cobra.Command {
 			return cmd.Help()
 		},
 	}
-	musicianCommand.AddCommand(MusicianCommandJoinNew())
+	musicianCommand.AddCommand(MusicianCommandJoinNew(event))
 	return musicianCommand
 }

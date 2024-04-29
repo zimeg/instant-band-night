@@ -12,6 +12,7 @@ to [Semantic Versioning][semver].
 - Created a top level 'ibn' command as the starting point for this program
 - Output collected information from a joining musician back to stdout
 - Included a global '--date' flag to set the event date that defaults to today
+- Save information about musicians who enter musical buckets to an event file
 
 ### Fixed
 
