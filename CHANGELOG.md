@@ -13,6 +13,7 @@ to [Semantic Versioning][semver].
 - Output collected information from a joining musician back to stdout
 - Included a global '--date' flag to set the event date that defaults to today
 - Save information about musicians who enter musical buckets to an event file
+- List all musicians with instruments using the 'musician list' command
 
 ### Fixed
 

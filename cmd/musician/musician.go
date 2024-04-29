@@ -25,5 +25,6 @@ func MusicianCommandNew(event *event.Event) *cobra.Command {
 		},
 	}
 	musicianCommand.AddCommand(MusicianCommandJoinNew(event))
+	musicianCommand.AddCommand(MusicianCommandListNew(event))
 	return musicianCommand
 }

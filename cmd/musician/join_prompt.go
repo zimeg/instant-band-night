@@ -47,7 +47,7 @@ func musicianCommandJoinPrompt(cmd *cobra.Command) (musician Musician, err error
 				huh.NewInput().
 					Title("Sign a stage name").
 					Value(&musician.Name).
-					CharLimit(60).
+					CharLimit(25).
 					Validate(func(s string) error {
 						if len(strings.TrimSpace(s)) == 0 {
 							return errors.ErrMissingInputMusicianName

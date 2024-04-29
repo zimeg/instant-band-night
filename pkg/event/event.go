@@ -7,7 +7,6 @@ import (
 	"math/big"
 	"path"
 
-	"github.com/zimeg/instant-band-night/internal/display"
 	"github.com/zimeg/instant-band-night/internal/errors"
 	"github.com/zimeg/instant-band-night/internal/terminal"
 	"github.com/zimeg/instant-band-night/pkg/musician"
@@ -29,11 +28,6 @@ func LoadEvent(config string, date string) (event Event, err error) {
 		if err != errors.ErrMissingFile {
 			return Event{}, errors.ToIBNError(err).
 				WithMessage("Failed to load event configurations")
-		} else {
-			terminal.PrintInfo(display.Section(display.SectionF{
-				Icon:   "star",
-				Header: "Creating a new event for a new night",
-			}))
 		}
 	} else if err = json.Unmarshal(content, &event); err != nil {
 		return Event{}, errors.ToIBNError(err).
@@ -48,10 +42,13 @@ func LoadEvent(config string, date string) (event Event, err error) {
 
 // SaveMusician adds a musician with a unique ID to the current event
 func (e *Event) SaveMusician(m musician.Musician) (musician.Musician, error) {
-	var id string
-	for id = fmt.Sprintf("m%s", randomID(6)); e.Musicians[id].Name != ""; {
+	if m.GetID() == "" {
+		var id string
+		for id = fmt.Sprintf("m%s", randomID(6)); e.Musicians[id].Name != ""; {
+		}
+		m.SetID(id)
 	}
-	e.Musicians[id] = m
+	e.Musicians[m.GetID()] = m
 	err := terminal.WriteJSON(e.filepath, e)
 	if err != nil {
 		return musician.Musician{}, err
