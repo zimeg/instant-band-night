@@ -37,6 +37,10 @@ func LoadEvent(config string, date string) (event Event, err error) {
 	if event.Musicians == nil {
 		event.Musicians = make(map[string]musician.Musician)
 	}
+	for id, musician := range event.Musicians {
+		musician.SetID(id)
+		event.Musicians[id] = musician
+	}
 	return event, nil
 }
 
