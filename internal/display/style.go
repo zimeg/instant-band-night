@@ -17,3 +17,10 @@ func Secondary(secondary string) string {
 		Foreground(lipgloss.Color("244")).
 		Render(secondary)
 }
+
+// Faint returns faint in dimmed markings
+func Faint(faint string) string {
+	return lipgloss.NewStyle().
+		Faint(true).
+		Render(faint)
+}

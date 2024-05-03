@@ -28,10 +28,11 @@ func (m *Musician) SetID(id string) {
 
 // MusicianF arranges details about the musician for printing
 func (m *Musician) MusicianF() string {
-	return fmt.Sprintf("%s %s %-28s %s",
+	return fmt.Sprintf("%s %s %s  %s  %s",
 		display.Emoji("star"),
 		display.Secondary(fmt.Sprintf("%s:", m.id)),
 		m.Name,
+		display.Faint(strings.Repeat(".", 26-len(m.Name))),
 		m.instrumentIcons(),
 	)
 }
