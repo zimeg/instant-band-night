@@ -23,7 +23,7 @@ func MusicianCommandListNew(event *event.Event) *cobra.Command {
 	return musicianCommandList
 }
 
-// musicianCommandListRunE prompts and saves information about the new musician
+// musicianCommandListRunE outputs information about all musicians
 func musicianCommandListRunE(event *event.Event) error {
 	musicians := event.GetMusicians()
 	for _, musician := range musicians {

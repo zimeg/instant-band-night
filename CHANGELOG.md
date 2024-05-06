@@ -14,6 +14,8 @@ to [Semantic Versioning][semver].
 - Included a global '--date' flag to set the event date that defaults to today
 - Save information about musicians who enter musical buckets to an event file
 - List all musicians with instruments using the 'musician list' command
+- Join unique musicians to create a band of specified size with 'band create'
+- List all performing bands and the musicians that performed with 'band list'
 
 ### Fixed
 
@@ -21,7 +23,6 @@ to [Semantic Versioning][semver].
 - Hide repeated error messages and usage information from failed command output
 - Exit with an error message and error code before ending failed executions
 - Collect the musician IDs when loading the current event into this process
-- Join unique musicians to create a band of specified size with 'band create'
 
 ### Documentation
 
