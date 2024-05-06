@@ -7,7 +7,7 @@ import (
 
 // PrintInfo formats str with args and prints to stdout
 func PrintInfo(format string, a ...interface{}) {
-	fmt.Fprintf(os.Stdout, format+"\n", a...)
+	fmt.Fprintf(os.Stdout, fmt.Sprintln(format), a...)
 }
 
 // PrintError formats err and prints to stderr

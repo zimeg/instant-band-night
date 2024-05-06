@@ -21,6 +21,7 @@ to [Semantic Versioning][semver].
 - Hide repeated error messages and usage information from failed command output
 - Exit with an error message and error code before ending failed executions
 - Collect the musician IDs when loading the current event into this process
+- Join unique musicians to create a band of specified size with 'band create'
 
 ### Documentation
 

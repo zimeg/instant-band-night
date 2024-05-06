@@ -13,7 +13,7 @@ func WriteJSON(filename string, v any) error {
 	if err != nil {
 		return err
 	}
-	marshal, err := json.MarshalIndent(v, "", "  ")
+	marshal, err := json.MarshalIndent(v, "", "    ")
 	if err != nil {
 		return err
 	}

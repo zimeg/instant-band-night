@@ -14,8 +14,8 @@ import (
 type musicianCommandJoinFlagSet struct {
 	artFlag    bool
 	bassFlag   bool
-	guitarFlag bool
 	drumsFlag  bool
+	guitarFlag bool
 	nameFlag   string
 	otherFlag  string
 	vocalsFlag bool
@@ -27,9 +27,12 @@ var musicianCommandJoinFlags musicianCommandJoinFlagSet
 // MusicianCommandJoinNew adds musicians to certain instrument buckets
 func MusicianCommandJoinNew(event *event.Event) *cobra.Command {
 	musicianCommandJoin := &cobra.Command{
-		Use:     "join",
-		Aliases: []string{"add", "create"},
-		Short:   "Join buckets of instruments",
+		Use:   "join",
+		Short: "Join buckets of instruments",
+		Aliases: []string{
+			"add",
+			"create",
+		},
 		Long: strings.Join([]string{
 			"Join different instrument buckets as a participating band member.",
 		}, "\n"),
@@ -53,14 +56,14 @@ func musicianCommandJoinRunE(cmd *cobra.Command, event *event.Event) error {
 	if err != nil {
 		return err
 	}
-	musician, err = event.SaveMusician(musician)
+	err = event.SaveMusician(musician)
 	if err != nil {
 		return err
 	}
 	terminal.PrintInfo(display.Section(display.SectionF{
 		Icon:   "star",
 		Header: fmt.Sprintf("Welcome to instant band night '%s'!", musician.Name),
-		Body:   musician.InstrumentsF(),
+		Body:   musician.Instruments.InstrumentsF(),
 	}))
 	return nil
 }

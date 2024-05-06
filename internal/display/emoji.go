@@ -1,5 +1,9 @@
 package display
 
+import (
+	"fmt"
+)
+
 // Emoji turns the text title into an emoticon
 func Emoji(emoji string) string {
 	switch emoji {
@@ -18,6 +22,6 @@ func Emoji(emoji string) string {
 	case "speaker":
 		return "🔉"
 	default:
-		return ""
+		return fmt.Sprintf(":%s:", emoji)
 	}
 }

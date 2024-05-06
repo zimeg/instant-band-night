@@ -14,9 +14,11 @@ type Musician = musician.Musician
 // MusicianCommandNew contains commands centered around the musician
 func MusicianCommandNew(event *event.Event) *cobra.Command {
 	musicianCommand := &cobra.Command{
-		Use:     "musician",
-		Aliases: []string{"bucket"},
-		Short:   "Makers of music",
+		Use:   "musician",
+		Short: "Makers of music",
+		Aliases: []string{
+			"bucket",
+		},
 		Long: strings.Join([]string{
 			"Individual instrumentation for the makers of music",
 		}, "\n"),

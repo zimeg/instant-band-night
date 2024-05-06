@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
+	"github.com/zimeg/instant-band-night/cmd/band"
 	"github.com/zimeg/instant-band-night/cmd/musician"
 	"github.com/zimeg/instant-band-night/internal/errors"
 	"github.com/zimeg/instant-band-night/internal/terminal"
@@ -40,6 +41,7 @@ func rootCommandNew() *cobra.Command {
 	rootCommand.CompletionOptions.DisableDefaultCmd = true
 	rootCommand.SilenceErrors = true
 	rootCommand.SilenceUsage = true
+	rootCommand.AddCommand(band.BandCommandNew(&tonight))
 	rootCommand.AddCommand(musician.MusicianCommandNew(&tonight))
 	rootCommand.PersistentFlags().StringVarP(&rootCommandFlags.configFlag, "config", "c", "~/.config/ibn", "path to save data")
 	rootCommand.PersistentFlags().StringVarP(&rootCommandFlags.dateFlag, "date", "d", time.Now().Format("2006-01-02"), "date of the event")
