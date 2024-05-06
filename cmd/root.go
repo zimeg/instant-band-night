@@ -43,6 +43,14 @@ func rootCommandNew() *cobra.Command {
 	rootCommand.SilenceUsage = true
 	rootCommand.AddCommand(band.BandCommandNew(&tonight))
 	rootCommand.AddCommand(musician.MusicianCommandNew(&tonight))
+	aliases := []*cobra.Command{
+		band.BandCommandCreateNew(&tonight),
+		musician.MusicianCommandJoinNew(&tonight),
+	}
+	for _, alias := range aliases {
+		alias.Hidden = true
+		rootCommand.AddCommand(alias)
+	}
 	rootCommand.PersistentFlags().StringVarP(&rootCommandFlags.configFlag, "config", "c", "~/.config/ibn", "path to save data")
 	rootCommand.PersistentFlags().StringVarP(&rootCommandFlags.dateFlag, "date", "d", time.Now().Format("2006-01-02"), "date of the event")
 	cobra.OnInitialize(func() {

@@ -29,9 +29,11 @@ var bandCommandCreateFlags bandCommandCreateFlagSet
 // BandCommandCreate forms new groups of somewhat random musicians
 func BandCommandCreateNew(event *event.Event) *cobra.Command {
 	bandCommandCreate := &cobra.Command{
-		Use:     "draw",
-		Aliases: []string{"create"},
-		Short:   "Draw musicians to form a band",
+		Use:   "draw",
+		Short: "Draw musicians to form a band",
+		Aliases: []string{
+			"create",
+		},
 		Long: strings.Join([]string{
 			"Collections of commands and individuals performers making a collective.",
 		}, "\n"),
