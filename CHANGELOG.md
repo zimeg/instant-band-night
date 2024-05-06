@@ -31,6 +31,7 @@ to [Semantic Versioning][semver].
 - Write a few basic words about the project on the project README
 - Create this exact changelog file to log changes in a changelog file
 - Link to the original and wonderful specifications of technical tool
+- Record a short demonstration video with a few common commands
 
 ### Maintenance
 
