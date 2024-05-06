@@ -12,14 +12,15 @@ import (
 
 // bandCommandCreateFlagSet contains the flags for this command
 type bandCommandCreateFlagSet struct {
-	artFlag     int
-	confirmFlag bool
-	bassFlag    int
-	drumsFlag   int
-	guitarFlag  int
-	nameFlag    string
-	otherFlag   int
-	vocalsFlag  int
+	artFlag      int
+	confirmFlag  bool
+	cooldownFlag int
+	bassFlag     int
+	drumsFlag    int
+	guitarFlag   int
+	nameFlag     string
+	otherFlag    int
+	vocalsFlag   int
 }
 
 // bandCommandCreateFlags implements the flags for this command
@@ -41,6 +42,7 @@ func BandCommandCreateNew(event *event.Event) *cobra.Command {
 	bandCommandCreate.Flags().IntVar(&bandCommandCreateFlags.artFlag, "artist", 1, "the number drawing band posters")
 	bandCommandCreate.Flags().IntVar(&bandCommandCreateFlags.bassFlag, "bass", 1, "the number making lower sounds")
 	bandCommandCreate.Flags().BoolVar(&bandCommandCreateFlags.confirmFlag, "confirm", false, "for provided values and the set defaults")
+	bandCommandCreate.Flags().IntVar(&bandCommandCreateFlags.cooldownFlag, "cooldown", 1, "the number of performances between")
 	bandCommandCreate.Flags().IntVar(&bandCommandCreateFlags.drumsFlag, "drums", 1, "the number often with the beat")
 	bandCommandCreate.Flags().IntVar(&bandCommandCreateFlags.guitarFlag, "guitar", 1, "the number playing the six strings")
 	bandCommandCreate.Flags().StringVar(&bandCommandCreateFlags.nameFlag, "name", "", "the title of the group performing")
@@ -51,10 +53,11 @@ func BandCommandCreateNew(event *event.Event) *cobra.Command {
 
 // bandCommandCreateRunE forms a new band with random and unique musicians
 func bandCommandCreateRunE(cmd *cobra.Command, event *event.Event) error {
-	arrangement, err := bandCommandCreatePrompt(cmd)
+	arrangement, cooldown, err := bandCommandCreatePrompt(cmd)
 	if err != nil {
 		return err
 	}
+	event.FilterCooldown(cooldown)
 	band, err := band.NewBand(arrangement, *event.Buckets)
 	if err != nil {
 		return err

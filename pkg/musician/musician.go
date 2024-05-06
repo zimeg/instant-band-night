@@ -12,12 +12,27 @@ import (
 type Musician struct {
 	id          string
 	Name        string                 `json:"name,omitempty"`
+	Bands       []int                  `json:"-"`
 	Instruments instrument.Instruments `json:"instruments,omitempty"`
+}
+
+// AddBand adds the ordered band to the musician bands
+func (m *Musician) AddBand(band int) {
+	m.Bands = append(m.Bands, band)
 }
 
 // GetID returns the unique ID of a musician
 func (m *Musician) GetID() string {
 	return m.id
+}
+
+// LastPerformance returns the most recent band if a performance happened
+func (m *Musician) LastPerformance() (int, bool) {
+	if len(m.Bands) > 0 {
+		return m.Bands[len(m.Bands)-1], true
+	} else {
+		return 0, false
+	}
 }
 
 // SetID sets the unique ID of a musician

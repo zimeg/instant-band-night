@@ -33,3 +33,19 @@ func (b Bucket) DrawMusician() (musicianID string, err error) {
 	}
 	return b[rand.IntN(len(b))], nil
 }
+
+// GetMusicians returns the musicianIDs in a bucket
+func (b Bucket) GetMusicians() []string {
+	return b
+}
+
+// RemoveMusician replaces the bucket with a musician with a bucket without
+func (b *Bucket) RemoveMusician(musicianID string) {
+	var musicians Bucket
+	for _, id := range *b {
+		if id != musicianID {
+			musicians = append(musicians, id)
+		}
+	}
+	*b = musicians
+}

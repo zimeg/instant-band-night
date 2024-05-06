@@ -13,6 +13,8 @@ func Emoji(emoji string) string {
 		return "🎸"
 	case "drums":
 		return "🥁"
+	case "hourglass":
+		return "⏳"
 	case "microphone":
 		return "🎤"
 	case "piano":

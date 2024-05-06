@@ -1,11 +1,13 @@
 package band
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
 	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"
+	"github.com/zimeg/instant-band-night/internal/display"
 	"github.com/zimeg/instant-band-night/internal/errors"
 	"github.com/zimeg/instant-band-night/internal/terminal"
 	"github.com/zimeg/instant-band-night/pkg/band"
@@ -13,28 +15,28 @@ import (
 )
 
 // bandCommandCreatePrompt gathers instrument counts for the band
-func bandCommandCreatePrompt(cmd *cobra.Command) (arrangement band.Arrangement, err error) {
-	confirm := bandCommandCreatePromptFlags(cmd, &arrangement)
+func bandCommandCreatePrompt(cmd *cobra.Command) (arrangement band.Arrangement, cooldown int, err error) {
+	confirm, cooldown := bandCommandCreatePromptFlags(cmd, &arrangement)
 	if confirm {
-		return arrangement, nil
+		return arrangement, cooldown, nil
 	}
-	confirm, err = bandCommandCreatePromptConfirm(arrangement)
+	confirm, err = bandCommandCreatePromptConfirm(arrangement, cooldown)
 	if err != nil {
-		return band.Arrangement{}, errors.ToIBNError(err)
+		return band.Arrangement{}, 0, errors.ToIBNError(err)
 	}
 	if confirm {
-		return arrangement, nil
+		return arrangement, cooldown, nil
 	}
-	err = bandCommandCreatePromptArrangement(&arrangement)
+	err = bandCommandCreatePromptArrangement(&arrangement, &cooldown)
 	if err != nil {
-		return band.Arrangement{}, errors.ToIBNError(err)
+		return band.Arrangement{}, 0, errors.ToIBNError(err)
 	}
-	return arrangement, nil
+	return arrangement, cooldown, nil
 }
 
 // bandCommandCreatePromptFlags sets instrument arrangement values using command
 // flags and returns if this is a confirmed customization
-func bandCommandCreatePromptFlags(cmd *cobra.Command, arrangement *band.Arrangement) (confirm bool) {
+func bandCommandCreatePromptFlags(cmd *cobra.Command, arrangement *band.Arrangement) (confirm bool, cooldown int) {
 	*arrangement = band.Arrangement{
 		instrument.GUITAR: terminal.FlagToInt(cmd.Flag("guitar")),
 		instrument.BASS:   terminal.FlagToInt(cmd.Flag("bass")),
@@ -43,17 +45,23 @@ func bandCommandCreatePromptFlags(cmd *cobra.Command, arrangement *band.Arrangem
 		instrument.ART:    terminal.FlagToInt(cmd.Flag("artist")),
 		instrument.OTHER:  terminal.FlagToInt(cmd.Flag("other")),
 	}
-	return terminal.FlagToBool(cmd.Flag("confirm"))
+	confirm = terminal.FlagToBool(cmd.Flag("confirm"))
+	cooldown = terminal.FlagToInt(cmd.Flag("cooldown"))
+	return
 }
 
 // bandCommandCreatePromptConfirm determines if the band arrangement is set
-func bandCommandCreatePromptConfirm(arrangement band.Arrangement) (bool, error) {
+func bandCommandCreatePromptConfirm(arrangement band.Arrangement, cooldown int) (bool, error) {
 	confirm := true
+	description := arrangement.ArrangementF()
+	description = append(description, "")
+	description = append(description,
+		fmt.Sprintf("%s cooldown: %d", display.Emoji("hourglass"), cooldown))
 	err := huh.NewForm(
 		huh.NewGroup(
 			huh.NewConfirm().
 				Title("Arrange this orchestration").
-				Description(strings.Join(arrangement.ArrangementF(), "\n")).
+				Description(strings.Join(description, "\n")).
 				Value(&confirm),
 		),
 	).
@@ -66,16 +74,16 @@ func bandCommandCreatePromptConfirm(arrangement band.Arrangement) (bool, error) 
 }
 
 // bandCommandCreatePromptArrangement collects a count for each instrument
-func bandCommandCreatePromptArrangement(arrangement *band.Arrangement) error {
-	newInputCount := func(prompt string, count *int) *huh.Input {
+func bandCommandCreatePromptArrangement(arrangement *band.Arrangement, cooldown *int) error {
+	newInputCount := func(icon string, prompt string, count *int) *huh.Input {
 		instrumentCount := strconv.Itoa(*count)
 		return huh.NewInput().
-			Prompt(prompt).
+			Prompt(fmt.Sprintf("%s %s ", icon, prompt)).
 			Validate(func(s string) error {
 				if len(s) == 0 {
 					return errors.ErrMissingInputInstrumentCount
 				}
-				if value, err := strconv.Atoi(s); err != nil {
+				if value, err := strconv.Atoi(s); err != nil || value < 0 {
 					return errors.ErrMissingInputInstrumentCount
 				} else {
 					*count = value
@@ -95,14 +103,17 @@ func bandCommandCreatePromptArrangement(arrangement *band.Arrangement) error {
 	)
 	err := huh.NewForm(
 		huh.NewGroup(
-			newInputCount("🎸 guitar ", &guitar).
+			newInputCount(display.Emoji("guitar"), "guitar", &guitar).
 				Title("Arrange the instrumentation").
 				Description(" "),
-			newInputCount("🔉 bass ", &bass).Inline(true),
-			newInputCount("🥁 drums ", &drums).Inline(true),
-			newInputCount("🎤 vocals ", &vocals).Inline(true),
-			newInputCount("🎨 art ", &art).Inline(true),
-			newInputCount("🎹 other ", &other).Inline(true),
+			newInputCount(display.Emoji("speaker"), "bass", &bass).Inline(true),
+			newInputCount(display.Emoji("drums"), "drums", &drums).Inline(true),
+			newInputCount(display.Emoji("microphone"), "vocals", &vocals).Inline(true),
+			newInputCount(display.Emoji("art"), "art", &art).Inline(true),
+			newInputCount(display.Emoji("piano"), "other", &other).Inline(true),
+			newInputCount(display.Emoji("hourglass"), "cooldown", cooldown).
+				Title("Relax on the cooldown").
+				Description(" "),
 		),
 	).
 		WithTheme(huh.ThemeDracula()).

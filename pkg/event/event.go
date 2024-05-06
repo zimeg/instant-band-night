@@ -35,6 +35,15 @@ func LoadEvent(config string, date string) (event Event, err error) {
 		musician.SetID(id)
 		event.Musicians[id] = musician
 	}
+	for order, band := range event.Bands {
+		for _, ins := range band.Instruments.GetInstruments() {
+			for _, musicianID := range *band.Instruments.GetInstrument(ins) {
+				musician := event.Musicians[musicianID]
+				musician.AddBand(order)
+				event.Musicians[musicianID] = musician
+			}
+		}
+	}
 	event.Buckets = bucket.NewBuckets(event.Musicians)
 	return event, nil
 }

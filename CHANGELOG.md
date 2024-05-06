@@ -16,6 +16,7 @@ to [Semantic Versioning][semver].
 - List all musicians with instruments using the 'musician list' command
 - Join unique musicians to create a band of specified size with 'band create'
 - List all performing bands and the musicians that performed with 'band list'
+- Prevent musicians from finding a place in bands for a certain '--cooldown'
 
 ### Fixed
 
