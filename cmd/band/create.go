@@ -68,10 +68,11 @@ func bandCommandCreateRunE(cmd *cobra.Command, event *event.Event) error {
 	if err != nil {
 		return err
 	}
+	_, musicians := event.BandMusiciansF(band)
 	terminal.PrintInfo(display.Section(display.SectionF{
 		Icon:   "star",
 		Header: "The next band can take the stage",
-		Body:   event.BandMusicianF(band),
+		Body:   musicians,
 	}))
 	return nil
 }

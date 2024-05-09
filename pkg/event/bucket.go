@@ -4,7 +4,10 @@ package event
 func (e *Event) FilterCooldown(since int) {
 	for _, bucket := range *e.Buckets {
 		for _, musicianID := range bucket.GetMusicians() {
-			musician := e.GetMusician(musicianID)
+			musician, err := e.Musicians.GetMusician(musicianID)
+			if err != nil {
+				continue
+			}
 			performance, ok := musician.LastPerformance()
 			if !ok || performance < len(e.Bands)-since {
 				continue

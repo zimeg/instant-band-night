@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
+	"github.com/zimeg/instant-band-night/internal/display"
 	"github.com/zimeg/instant-band-night/internal/terminal"
 	"github.com/zimeg/instant-band-night/pkg/event"
 )
@@ -25,7 +26,16 @@ func MusicianCommandListNew(event *event.Event) *cobra.Command {
 
 // musicianCommandListRunE outputs information about all musicians
 func musicianCommandListRunE(event *event.Event) error {
-	musicians := event.GetMusicians()
+	musicians := event.Musicians.GetMusicians()
+	if len(musicians) <= 0 {
+		terminal.PrintInfo(display.Section(display.SectionF{
+			Icon:   "star",
+			Header: "No musicicans are performing",
+			Body: []string{
+				"Join as a musician with 'musician join'",
+			},
+		}))
+	}
 	for _, musician := range musicians {
 		terminal.PrintInfo(musician.MusicianF())
 	}

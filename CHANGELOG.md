@@ -18,6 +18,7 @@ to [Semantic Versioning][semver].
 - List all performing bands and the musicians that performed with 'band list'
 - Prevent musicians from finding a place in bands for a certain '--cooldown'
 - Alias extended 'musician join' and 'band create' commands to 'join' and 'draw'
+- Update musicians and instruments and arrangement of a band with 'band edit'
 
 ### Fixed
 

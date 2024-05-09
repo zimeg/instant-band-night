@@ -75,3 +75,13 @@ func (b *Buckets) GetInstruments() []instrument.Instrument {
 	instruments.SortInstruments()
 	return instruments.GetInstruments()
 }
+
+// GetMusicianIDs returns the musicians in the buckets
+func (b Buckets) GetMusicianIDs() (musicianIDs []string) {
+	for _, ins := range b.GetInstruments() {
+		for _, musician := range *b.GetInstrument(ins) {
+			musicianIDs = append(musicianIDs, musician)
+		}
+	}
+	return
+}

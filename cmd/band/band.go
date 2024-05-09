@@ -20,6 +20,7 @@ func BandCommandNew(event *event.Event) *cobra.Command {
 		},
 	}
 	bandCommand.AddCommand(BandCommandCreateNew(event))
+	bandCommand.AddCommand(BandCommandEditNew(event))
 	bandCommand.AddCommand(BandCommandListNew(event))
 	return bandCommand
 }

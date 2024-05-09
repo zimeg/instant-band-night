@@ -27,12 +27,38 @@ func BandCommandListNew(event *event.Event) *cobra.Command {
 
 // bandCommandListRunE prints the band information
 func bandCommandListRunE(event *event.Event) error {
-	for ii, band := range event.Bands {
+	if len(event.Bands) <= 0 {
 		terminal.PrintInfo(display.Section(display.SectionF{
 			Icon:   "star",
-			Header: fmt.Sprintf("Band #%d", ii),
-			Body:   event.BandMusicianF(band),
+			Header: "No bands have performed",
+			Body: []string{
+				"Draw a band with 'band draw'",
+			},
 		}))
+	}
+	for ii, band := range event.Bands {
+		_, musicians := event.BandMusiciansF(band)
+		var header string
+		if band.Moniker != "" {
+			header = fmt.Sprintf("Band #%d: %s", ii, band.Moniker)
+		} else {
+			header = fmt.Sprintf("Band #%d", ii)
+		}
+		if len(musicians) <= 0 {
+			terminal.PrintInfo(display.Section(display.SectionF{
+				Icon:   "star",
+				Header: header,
+				Body: []string{
+					fmt.Sprintf("%s No musicians", display.Emoji("mag")),
+				},
+			}))
+		} else {
+			terminal.PrintInfo(display.Section(display.SectionF{
+				Icon:   "star",
+				Header: header,
+				Body:   musicians,
+			}))
+		}
 	}
 	return nil
 }

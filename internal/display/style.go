@@ -1,6 +1,8 @@
 package display
 
 import (
+	"fmt"
+
 	"github.com/charmbracelet/lipgloss"
 )
 
@@ -12,10 +14,10 @@ func Title(title string) string {
 }
 
 // Secondary returns secondary in a passive cloud
-func Secondary(secondary string) string {
+func Secondary(secondary string, a ...any) string {
 	return lipgloss.NewStyle().
 		Foreground(lipgloss.Color("244")).
-		Render(secondary)
+		Render(fmt.Sprintf(secondary, a...))
 }
 
 // Faint returns faint in dimmed markings

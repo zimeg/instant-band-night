@@ -15,6 +15,8 @@ func Emoji(emoji string) string {
 		return "🥁"
 	case "hourglass":
 		return "⏳"
+	case "mag":
+		return "🔍"
 	case "microphone":
 		return "🎤"
 	case "piano":

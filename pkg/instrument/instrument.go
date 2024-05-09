@@ -44,6 +44,11 @@ func (ins Instrument) Emoji() string {
 	}
 }
 
+// Exists returns if the instrument is something
+func (ins Instrument) Exists() bool {
+	return ins != ""
+}
+
 // Order returns a unique number for sorting instrument with
 func (ins Instrument) Order() int {
 	switch ins {

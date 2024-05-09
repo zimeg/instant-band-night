@@ -36,6 +36,8 @@ func LoadEvent(config string, date string) (event Event, err error) {
 		event.Musicians[id] = musician
 	}
 	for order, band := range event.Bands {
+		band.SetID(order)
+		event.Bands[order] = band
 		for _, ins := range band.Instruments.GetInstruments() {
 			for _, musicianID := range *band.Instruments.GetInstrument(ins) {
 				musician := event.Musicians[musicianID]
@@ -46,4 +48,13 @@ func LoadEvent(config string, date string) (event Event, err error) {
 	}
 	event.Buckets = bucket.NewBuckets(event.Musicians)
 	return event, nil
+}
+
+// SaveEvent writes the updated musician and band information to storage
+func SaveEvent(event Event) error {
+	err := terminal.WriteJSON(event.filepath, &event)
+	if err != nil {
+		return err
+	}
+	return nil
 }

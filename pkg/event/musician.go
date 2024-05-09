@@ -4,30 +4,10 @@ import (
 	"crypto/rand"
 	"fmt"
 	"math/big"
-	"sort"
 
 	"github.com/zimeg/instant-band-night/internal/terminal"
 	"github.com/zimeg/instant-band-night/pkg/musician"
 )
-
-// GetMusician finds the musician with a known ID
-func (e *Event) GetMusician(musicianID string) musician.Musician {
-	return e.Musicians[musicianID]
-}
-
-// GetMusicians returns all of the musicians at an event
-func (e *Event) GetMusicians() (musicians []musician.Musician) {
-	for _, musician := range e.Musicians {
-		musicians = append(musicians, musician)
-	}
-	sort.Slice(musicians, func(i, j int) bool {
-		if musicians[i].Name == musicians[j].Name {
-			return musicians[i].GetID() > musicians[j].GetID()
-		}
-		return musicians[i].Name < musicians[j].Name
-	})
-	return
-}
 
 // SaveMusician adds a musician with a unique ID to the current event
 func (e *Event) SaveMusician(m musician.Musician) error {
